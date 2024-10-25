@@ -14,3 +14,12 @@ Este proyecto consiste en crear un servidor que sea capaz de **crear**, **leer**
 
 ### Futuras Mejoras
 - Implementación de manejo de excepciones.
+
+
+### Instalación
+1. **Clona el repositorio**:
+   ```bash
+   git clone <URL del repositorio>
+   cd <nombre del proyecto>
+   ```
+   
