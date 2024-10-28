@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat en Vivo</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div id="chat-container">
+    <h2>Chat en Vivo</h2>
+
+    <!-- Área de mensajes -->
+    <div id="chat-box" class="chat-box"></div>
+
+    <!-- Formulario para enviar mensajes -->
+    <form id="messageForm" name="messageForm" th:action="@{/app/chat.sendMessage}">
+        <input type="text" id="message" placeholder="Escribe tu mensaje aquí..." autocomplete="off" >
+        <button type="button" onclick="sendMessage()">Enviar</button>
+    </form>
+</div>
+
+<!-- Importar SockJS y STOMP -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<script type="text/javascript">
+    let stompClient = null;
+    let username = prompt("Introduce tu nombre para unirte al chat");
+
+    function connect() {
+        document.getElementById("message").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                sendMessage(event);
+            }
+        });
+        const socket = new SockJS('/chat');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('Conectado: ' + frame);
+
+            // Suscripción al canal público
+            stompClient.subscribe('/topic/public', function (message) {
+                const chatMessage = JSON.parse(message.body);
+                displayMessage(chatMessage);
+            });
+
+            // Notificar al servidor que un usuario se ha unido
+            stompClient.send("/app/chat.addUser", {}, JSON.stringify({
+                sender: username,
+                type: 'JOIN'
+            }));
+        });
+        window.onbeforeunload = function () {
+            stompClient.send("/app/chat.leaveUser", {}, JSON.stringify({
+                sender: username,
+                type: 'LEAVE'
+            }));
+        };
+    }
+
+    function sendMessage(e) {
+        if (e) {
+            e.preventDefault();
+        }
+        const messageContent = document.getElementById("message").value.trim();
+
+        if (messageContent && stompClient) {
+            const chatMessage = {
+                sender: username,
+                content: messageContent,
+                type: 'CHAT'
+            };
+
+            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+            document.getElementById("message").value = '';  // Limpiar el campo de entrada
+        }
+    }
+
+    function displayMessage(chatMessage) {
+        const chatBox = document.getElementById("chat-box");
+        const messageElement = document.createElement("div");
+
+        // Configurar estilo y texto según el tipo de mensaje
+        if (chatMessage.type === 'JOIN') {
+            messageElement.classList.add('notification');
+            messageElement.textContent = `${chatMessage.sender} se ha unido al chat`;
+        } else if (chatMessage.type === 'LEAVE') {
+            messageElement.classList.add('notification');
+            messageElement.textContent = `${chatMessage.sender} ha salido del chat`;
+        } else if (chatMessage.type === 'CHAT') {
+            messageElement.classList.add('message');
+            messageElement.textContent = `${chatMessage.sender}: ${chatMessage.content}`;
+        }
+
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;  // Desplazar al final para ver el último mensaje
+    }
+
+    // Conectar al cargar la página
+    window.onload = connect;
+</script>
+
+<style>
+    /* Estilos básicos */
+    body { font-family: Arial, sans-serif; }
+    #chat-container { width: 60%; margin: 0 auto; }
+    #chat-box { border: 1px solid #ddd; padding: 10px; height: 300px; overflow-y: scroll; margin-bottom: 10px; }
+    .notification { color: #888; font-style: italic; }
+    .message { padding: 5px 0; }
+    #message { width: 80%; padding: 8px; }
+    button { padding: 8px; cursor: pointer; }
+</style>
+</body>
+</html>
