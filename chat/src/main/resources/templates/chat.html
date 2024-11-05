@@ -24,9 +24,9 @@
 <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 
 <script type="text/javascript">
-    let stompClient = null;
+    let stompClient =null;
     let username = prompt("Introduce tu nombre para unirte al chat");
-
+    if(username==null) username = "Usuario"
     function connect() {
         document.getElementById("message").addEventListener("keydown", function (event) {
             if (event.key === "Enter") {

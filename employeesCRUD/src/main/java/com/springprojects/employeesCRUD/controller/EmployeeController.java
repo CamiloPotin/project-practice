@@ -61,6 +61,7 @@ public class EmployeeController {
         Employee employee = employeeRepository.findById(id).orElse(null);
         model.addAttribute("employee", employee);
         model.addAttribute("action", "/employees/edit/" + id);
+        model.addAttribute("cancel", "/employees/");
         //System.out.println(model.getAttribute("action"));
         return "employee-form";
     }
