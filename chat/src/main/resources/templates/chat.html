@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <title>Chat en Vivo</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Estilos básicos */
+        body { font-family: Arial, sans-serif; }
+        #chat-container { width: 60%; margin: 0 auto; }
+        #chat-box { border: 1px solid #ddd; padding: 10px; height: 300px; overflow-y: scroll; margin-bottom: 10px; }
+        .notification { color: #888; font-style: italic; }
+        .message { padding: 5px 0; }
+        #message { width: 80%; padding: 8px; }
+        button { padding: 8px; cursor: pointer; }
+    </style>
 </head>
 <body>
 <div id="chat-container">
@@ -101,15 +111,6 @@
     window.onload = connect;
 </script>
 
-<style>
-    /* Estilos básicos */
-    body { font-family: Arial, sans-serif; }
-    #chat-container { width: 60%; margin: 0 auto; }
-    #chat-box { border: 1px solid #ddd; padding: 10px; height: 300px; overflow-y: scroll; margin-bottom: 10px; }
-    .notification { color: #888; font-style: italic; }
-    .message { padding: 5px 0; }
-    #message { width: 80%; padding: 8px; }
-    button { padding: 8px; cursor: pointer; }
-</style>
+
 </body>
 </html>
