@@ -31,5 +31,5 @@ Este proyecto consiste en crear un servidor que sea capaz de **crear**, **leer**
  ```bash
    mvn spring-boot:run
   ```
-4. **Accede a la aplicación**: Abre tu navegador y dirígete a `http://localhost:8080` para ver la aplicación en funcionamiento.
+4. **Accede a la aplicación**: Abre tu navegador y dirígete a `http://localhost:8080/employees` para ver la aplicación en funcionamiento.
    
