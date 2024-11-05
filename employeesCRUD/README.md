@@ -1,6 +1,9 @@
 ## Proyecto de Empleados CRUD
+Este proyecto consiste en crear una aplicación CRUD simple que sea capaz de **crear**, **leer**, **editar** y **borrar** empleados, almacenándolos en una base de datos en memoria. 
 
-Este proyecto consiste en crear un servidor que sea capaz de **crear**, **leer**, **editar** y **borrar** empleados, almacenándolos en una base de datos en memoria. El objetivo es aprender conceptos básicos de API REST con **Spring**, así como el correcto uso de validaciones y el patrón de diseño **MVC**. En futuros desarrollos, se integrará el manejo de excepciones.
+
+### Objetivo
+El objetivo es aprender conceptos básicos de API REST con **Spring**, así como la implementacion de validaciones y el patrón de diseño **MVC**.
 
 ### Tecnologías
 - **Spring Framework**
@@ -13,8 +16,9 @@ Este proyecto consiste en crear un servidor que sea capaz de **crear**, **leer**
 - Validaciones básicas de datos.
 
 ### Futuras Mejoras
-- Implementación de manejo de excepciones.
-
+1. FrontEnd: Mejora de la interfaz grafica integrando el uso de un framework de frontend (React).
+2. Persistencia: Implementar el uso de una base de datos relacional como MySQL
+3. Excipciones: Implementación de manejo de excepciones.
 
 ### Instalación
 1. **Clona el repositorio**:
